@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react';
+import Routing from './Rutas/Routing';
+import { ToastContainer } from "react-toastify";
+import { AuthContext } from './utils/context';
+import {isUserLoggedApi} from "./api/auth";
+import './App.scss';
 
-function App() {
+
+
+export default function App() {
+  
+  const[user, setUser]=useState("josue");
+  const [refreshCheckLogin, setRefreshCheckLogin] = useState(false);
+
+  useEffect(() => {
+    //setUser(isUserLoggedApi());
+    setUser("josue");
+    setRefreshCheckLogin(false);
+  }, [refreshCheckLogin])
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthContext.Provider value={user}>
+    {user ? 
+    (
+      <Routing setRefreshCheckLogin={setRefreshCheckLogin}/>
+    )
+    :
+    (
+        <h2>Pagina de login</h2>
+    )
+    }
+    <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+    />
+    </AuthContext.Provider>
   );
 }
-
-export default App;

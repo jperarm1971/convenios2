@@ -1,0 +1,1 @@
+export { ReactComponent as convenios } from "../assest/convenio.jpeg";
